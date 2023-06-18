@@ -5,20 +5,27 @@ export default class Todo extends Component {
         super(props);
         this.state = {
             todos: [],
-            name: ''
+            name: '',
+            due: ''
         };
     }
 
-    onInput = (e) => {
+    onNameInput = (e) => {
         this.setState({
-            name: e.target.value
+            name: e.target.value,
         });
     }
 
-    addTodo = () => {
-        const { todos, name } = this.state;
+    onDueInput = (e) => {
         this.setState({
-            todos: [...todos, name]
+            due: e.target.value,
+        })
+    }
+
+    addTodo = () => {
+        const { todos, name, due } = this.state;
+        this.setState({
+            todos: [...todos, { name, due }]
         });
     }
 
@@ -33,10 +40,11 @@ export default class Todo extends Component {
         const { todos } = this.state;
 
         return (<div>
-            <input type="text" onInput={this.onInput} />
+            TODO:<input type="text" onInput={this.onNameInput} />
+            期限:<input type="text" onInput={this.onDueInput} />
             <button onClick={this.addTodo}>登録</button>
             <ul>
-                {todos.map((todo, index) => <li key={index}>{todo}
+                {todos.map((todo, index) => <li key={index}>{todo.name} {todo.due}
                     <button onClick={() => { this.removeTodo(index) }} > 削除</button>
                 </li>)}
             </ul>
